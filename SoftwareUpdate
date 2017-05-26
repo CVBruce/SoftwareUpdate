@@ -1,0 +1,66 @@
+#!/bin/sh -x
+
+# Check to ensure that this script is being executed by someone with root authority.
+ID=`id -u`
+if [ $ID != 0 ] 
+then
+        echo;
+        echo "--->  You must run `basename $0` as root, or via sudo.";
+        echo;
+        exit 4;
+fi
+#
+# Create a list of all installed software in a place that etckeeper will archive
+# 
+if [ -e /usr/bin/dpkg ]
+then
+	/usr/bin/dpkg -l >/etc/dpkg/dpkg.list.txt;
+fi
+#
+# Backup all changed files in /etc
+#
+if [ -e /usr/bin/etckeeper ]
+then
+	#EtcKeeper commit
+	/usr/bin/etckeeper post-install;
+	/usr/bin/etckeeper commit auto;
+fi
+#
+# Run apt-get update, upgrade, dist-upgrade, autoremove, autoclean
+#
+if [ -e /usr/bin/apt-get ]
+then
+	apt-get update --assume-yes &&\
+	apt-get upgrade --assume-yes &&\
+	apt-get dist-upgrade --assume-yes &&\
+	apt-get autoremove --assume-yes &&\
+	apt-get autoclean -assume-yes ; 
+fi
+#
+# For Raspberry Pi, check for and install kernel updates
+#
+if [ -e /usr/bin/rpi-update ]
+then 
+	/usr/bin/rpi-update;
+#
+# For Beagle Bone Black, check for and instll kernel updates
+#
+elif [ -e /opt/scripts/tools/update_kernel.sh ]
+then
+	/opt/scripts/tools/update_kernel.sh;
+#
+# For Pine64, check for and install kernel and uboot updates
+#
+elif [ -e /usr/local/sbin/pine64_update_kernel.sh ]
+then
+	/usr/local/sgin/pine64_update_uboot.sh;
+	/usr/local/sbin/pine64_update_kernel.sh;
+fi
+#
+# Reboot to make updates effective.
+#
+if [ $? = 0 ]
+then	
+	echo "Rebooting";
+	/sbin/shutdown -r +1 &
+fi
