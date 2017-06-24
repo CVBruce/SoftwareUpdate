@@ -53,7 +53,7 @@ then
 #
 elif [ -e /usr/local/sbin/pine64_update_kernel.sh ]
 then
-	/usr/local/sgin/pine64_update_uboot.sh;
+	/usr/local/sbin/pine64_update_uboot.sh;
 	/usr/local/sbin/pine64_update_kernel.sh;
 fi
 #
