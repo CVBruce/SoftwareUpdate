@@ -34,7 +34,7 @@ then
 	apt-get upgrade --assume-yes &&\
 	apt-get dist-upgrade --assume-yes &&\
 	apt-get autoremove --assume-yes &&\
-	apt-get autoclean -assume-yes ; 
+	apt-get autoclean --assume-yes ; 
 fi
 #
 # For Raspberry Pi, check for and install kernel updates
