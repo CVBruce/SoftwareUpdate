@@ -10,6 +10,46 @@ then
         exit 4;
 fi
 #
+# Self update
+# An example of how to retrieve a file from github
+#
+WGET=`which wget`
+CURL=`which curl`
+
+SCRIPT=$0
+SCRIPT_NAME=`basename $0`
+SCRIPT_CKSUM=`cksum $0 | cut -d' ' -f1`
+
+cd /tmp
+
+if [ -e $WGET ]
+then 
+	sudo $WGET https://raw.githubusercontent.com/CVBruce/SoftwareUpdate/master/$SCRIPT_NAME;
+elif [ -e $CURL ]
+then 
+	sudo curl -O https://raw.githubusercontent.com/CVBruce/SoftwareUpdate/master/$SCRIPT_NAME;
+else
+	echo "Can't find wget or curl. Unable to auto-install $SCRIPT_NAME"
+fi
+NEW_CKSUM=`cksum $SCRIPT_NAME | cut -d' ' -f1`
+
+if [ "$NEW_CKSUM" = "" ] 
+then
+	echo $SCRIPT_NAME not found in repository.;
+	exit 4;
+fi
+
+if [ "$NEW_CKSUM" != "$SCRIPT_CKSUM" ]
+then
+	sudo cp $SCRIPT_NAME $SCRIPT;
+	sudo chmod 755 $SCRIPT;
+	rm tmp/$SCRIPT_NAME;
+	exec $SCRIPT;
+else 
+	echo $CUR_SCPR is current version.;
+fi
+
+#
 # Create a list of all installed software in a place that etckeeper will archive
 # 
 if [ -e /usr/bin/dpkg ]
