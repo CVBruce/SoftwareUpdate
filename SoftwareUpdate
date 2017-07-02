@@ -42,7 +42,7 @@ if [ "$NEW_CKSUM" != "$SCRIPT_CKSUM" ]
 then
 	sudo cp $SCRIPT_NAME $SCRIPT;
 	sudo chmod 755 $SCRIPT;
-	rm tmp/$SCRIPT_NAME;
+	rm /tmp/$SCRIPT_NAME;
 	exec $SCRIPT;
 else 
 	echo $SCRIPT_NAME is current version.;
