@@ -36,7 +36,6 @@ NEW_CKSUM=`cksum $SCRIPT_NAME | cut -d' ' -f1`
 if [ "$NEW_CKSUM" = "" ] 
 then
 	echo $SCRIPT_NAME not found in repository.;
-	exit 4;
 fi
 
 if [ "$NEW_CKSUM" != "$SCRIPT_CKSUM" ]
@@ -46,7 +45,7 @@ then
 	rm tmp/$SCRIPT_NAME;
 	exec $SCRIPT;
 else 
-	echo $CUR_SCPR is current version.;
+	echo $SCRIPT_NAME is current version.;
 fi
 
 #
