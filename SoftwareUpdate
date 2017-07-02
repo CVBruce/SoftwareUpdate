@@ -15,6 +15,7 @@ fi
 #
 WGET=`which wget`
 CURL=`which curl`
+REPOSITORY='https://raw.githubusercontent.com/CVBruce/SoftwareUpdate/master/'
 
 SCRIPT=$0
 SCRIPT_NAME=`basename $0`
@@ -24,10 +25,10 @@ cd /tmp
 
 if [ -e $WGET ]
 then 
-	sudo $WGET https://raw.githubusercontent.com/CVBruce/SoftwareUpdate/master/$SCRIPT_NAME;
+	sudo $WGET $REPOSITORY/$SCRIPT_NAME;
 elif [ -e $CURL ]
 then 
-	sudo curl -O https://raw.githubusercontent.com/CVBruce/SoftwareUpdate/master/$SCRIPT_NAME;
+	sudo $CURL -O $REPOSITORY/$SCRIPT_NAME;
 else
 	echo "Can't find wget or curl. Unable to auto-install $SCRIPT_NAME"
 fi
