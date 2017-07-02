@@ -46,6 +46,7 @@ then
 	exec $SCRIPT;
 else 
 	echo $SCRIPT_NAME is current version.;
+	rm /tmp/$SCRIPT_NAME;
 fi
 
 #
