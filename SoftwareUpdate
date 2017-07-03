@@ -1,4 +1,14 @@
-#!/bin/sh -x
+#!/bin/sh
+
+# Defined Constants
+REPOSITORY='https://raw.githubusercontent.com/CVBruce/SoftwareUpdate/master/'
+
+# Discovered Constants
+CURL=`which curl`
+SCRIPT=$0
+SCRIPT_CKSUM=`cksum $0 | cut -d' ' -f1`
+SCRIPT_NAME=`basename $0`
+WGET=`which wget`
 
 # Check to ensure that this script is being executed by someone with root authority.
 ID=`id -u`
@@ -11,16 +21,7 @@ then
 fi
 #
 # Self update
-# An example of how to retrieve a file from github
 #
-WGET=`which wget`
-CURL=`which curl`
-REPOSITORY='https://raw.githubusercontent.com/CVBruce/SoftwareUpdate/master/'
-
-SCRIPT=$0
-SCRIPT_NAME=`basename $0`
-SCRIPT_CKSUM=`cksum $0 | cut -d' ' -f1`
-
 cd /tmp
 
 if [ -e $WGET ]
@@ -30,13 +31,13 @@ elif [ -e $CURL ]
 then 
 	sudo $CURL -O $REPOSITORY/$SCRIPT_NAME;
 else
-	echo "Can't find wget or curl. Unable to auto-install $SCRIPT_NAME"
+	echo "---> Can't find wget or curl. Unable to auto-install $SCRIPT_NAME"
 fi
 NEW_CKSUM=`cksum $SCRIPT_NAME | cut -d' ' -f1`
 
 if [ "$NEW_CKSUM" = "" ] 
 then
-	echo $SCRIPT_NAME not found in repository.;
+	echo "---> $SCRIPT_NAME not found in repository.";
 fi
 
 if [ "$NEW_CKSUM" != "$SCRIPT_CKSUM" ]
@@ -44,9 +45,10 @@ then
 	sudo cp $SCRIPT_NAME $SCRIPT;
 	sudo chmod 755 $SCRIPT;
 	rm /tmp/$SCRIPT_NAME;
+	echo "---> $SCRIPT_NAME has been updated. Executing the updated version....";
 	exec $SCRIPT;
 else 
-	echo $SCRIPT_NAME is current version.;
+	echo "---> $SCRIPT_NAME is current version.";
 	rm /tmp/$SCRIPT_NAME;
 fi
 
@@ -55,6 +57,7 @@ fi
 # 
 if [ -e /usr/bin/dpkg ]
 then
+	echo "---> Creating list of installed software.";
 	/usr/bin/dpkg -l >/etc/dpkg/dpkg.list.txt;
 fi
 #
@@ -63,6 +66,7 @@ fi
 if [ -e /usr/bin/etckeeper ]
 then
 	#EtcKeeper commit
+	echo "---> Backing up changed files in /etc.";
 	/usr/bin/etckeeper post-install;
 	/usr/bin/etckeeper commit auto;
 fi
@@ -71,6 +75,7 @@ fi
 #
 if [ -e /usr/bin/apt-get ]
 then
+	echo "---> Running apt-get update, upgrde, dist-upgrade, autoremove, autoclean.";
 	apt-get update --assume-yes &&\
 	apt-get upgrade --assume-yes &&\
 	apt-get dist-upgrade --assume-yes &&\
@@ -82,18 +87,21 @@ fi
 #
 if [ -e /usr/bin/rpi-update ]
 then 
+	echo "---> Running rpi-update.";
 	/usr/bin/rpi-update;
 #
 # For Beagle Bone Black, check for and instll kernel updates
 #
 elif [ -e /opt/scripts/tools/update_kernel.sh ]
 then
+	echo "---> Updating Beagle Bone Black kernel.";
 	/opt/scripts/tools/update_kernel.sh;
 #
 # For Pine64, check for and install kernel and uboot updates
 #
 elif [ -e /usr/local/sbin/pine64_update_kernel.sh ]
 then
+	echo "---> Updating Pine64 Uboot and Kernel.";
 	/usr/local/sbin/pine64_update_uboot.sh;
 	/usr/local/sbin/pine64_update_kernel.sh;
 fi
