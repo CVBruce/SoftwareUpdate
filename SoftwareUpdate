@@ -26,10 +26,10 @@ cd /tmp
 
 if [ -e $WGET ]
 then 
-	sudo $WGET $REPOSITORY/$SCRIPT_NAME;
+	sudo $WGET --quiet $REPOSITORY/$SCRIPT_NAME;
 elif [ -e $CURL ]
 then 
-	sudo $CURL -O $REPOSITORY/$SCRIPT_NAME;
+	sudo $CURL -O --silent $REPOSITORY/$SCRIPT_NAME;
 else
 	echo "---> Can't find wget or curl. Unable to auto-install $SCRIPT_NAME"
 fi
