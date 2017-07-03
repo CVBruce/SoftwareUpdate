@@ -76,11 +76,11 @@ fi
 if [ -e /usr/bin/apt-get ]
 then
 	echo "---> Running apt-get update, upgrde, dist-upgrade, autoremove, autoclean.";
-	apt-get update --assume-yes &&\
-	apt-get upgrade --assume-yes &&\
-	apt-get dist-upgrade --assume-yes &&\
-	apt-get autoremove --assume-yes &&\
-	apt-get autoclean --assume-yes ; 
+	apt-get update --assume-yes --quiet &&\
+	apt-get upgrade --assume-yes --quiet &&\
+	apt-get dist-upgrade --assume-yes --quiet &&\
+	apt-get autoremove --assume-yes --quiet &&\
+	apt-get autoclean --assume-yes --quiet; 
 fi
 #
 # For Raspberry Pi, check for and install kernel updates
