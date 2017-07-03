@@ -44,13 +44,14 @@ if [ "$NEW_CKSUM" != "$SCRIPT_CKSUM" ]
 then
 	sudo cp $SCRIPT_NAME $SCRIPT;
 	sudo chmod 755 $SCRIPT;
-	rm /tmp/$SCRIPT_NAME;
 	echo "---> $SCRIPT_NAME has been updated. Executing the updated version....";
 	exec $SCRIPT;
 else 
 	echo "---> $SCRIPT_NAME is current version.";
-	rm /tmp/$SCRIPT_NAME;
 fi
+
+# Remove downloaded Script.
+rm /tmp/$SCRIPT_NAME;
 
 #
 # Create a list of all installed software in a place that etckeeper will archive
