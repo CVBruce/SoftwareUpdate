@@ -1,5 +1,7 @@
 #!/bin/sh
-
+#
+# Requires etckeeper and, wget or curl
+#
 # Defined Constants
 REPOSITORY='http://raw.githubusercontent.com/CVBruce/SoftwareUpdate/master/'
 
