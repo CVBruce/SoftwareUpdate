@@ -74,7 +74,7 @@ then
 	/usr/bin/etckeeper commit auto;
 fi
 #
-# Run apt-get update, upgrade, dist-upgrade, autoremove, autoclean
+# Run apt-get update, dist-upgrade, autoremove, autoclean
 #
 if [ -e /usr/bin/apt-get ]
 then
