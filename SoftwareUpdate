@@ -82,7 +82,10 @@ then
 	apt-get update --assume-yes --quiet &&\
 	apt-get dist-upgrade --assume-yes --quiet &&\
 	apt-get autoremove --assume-yes --quiet &&\
-	apt-get autoclean --assume-yes --quiet; 
+	apt-get autoclean --assume-yes --quiet;
+	echo ;
+	echo "---> Raspberry Pi Update Complete.";
+	echo ;
 fi
 #
 # For Beagle Bone Black, check for and instll kernel updates
