@@ -33,23 +33,31 @@ elif [ -e $CURL ]
 then 
 	sudo $CURL -O --silent $REPOSITORY/$SCRIPT_NAME;
 else
+        echo;
 	echo "---> Can't find wget or curl. Unable to auto-install $SCRIPT_NAME"
+        echo;
 fi
 NEW_CKSUM=`cksum $SCRIPT_NAME | cut -d' ' -f1`
 
 if [ "$NEW_CKSUM" = "" ] 
 then
+        echo;
 	echo "---> $SCRIPT_NAME not found in repository.";
+        echo;
 fi
 
 if [ "$NEW_CKSUM" != "$SCRIPT_CKSUM" ]
 then
 	sudo cp $SCRIPT_NAME $SCRIPT;
 	sudo chmod 755 $SCRIPT;
+        echo;
 	echo "---> $SCRIPT_NAME has been updated. Executing the updated version....";
+        echo;
 	exec $SCRIPT;
 else 
+        echo;
 	echo "---> $SCRIPT_NAME is current version.";
+        echo;
 fi
 
 # Remove downloaded Script.
@@ -60,7 +68,9 @@ rm /tmp/$SCRIPT_NAME;
 # 
 if [ -e /usr/bin/dpkg ]
 then
+        echo;
 	echo "---> Creating list of installed software.";
+        echo;
 	/usr/bin/dpkg -l >/etc/dpkg/dpkg.list.txt;
 fi
 #
@@ -69,7 +79,9 @@ fi
 if [ -e /usr/bin/etckeeper ]
 then
 	#EtcKeeper commit
+        echo;
 	echo "---> Backing up changed files in /etc.";
+        echo;
 	/usr/bin/etckeeper post-install;
 	/usr/bin/etckeeper commit auto;
 fi
@@ -78,7 +90,9 @@ fi
 #
 if [ -e /usr/bin/apt-get ]
 then
+        echo;
 	echo "---> Running apt-get update, upgrde, dist-upgrade, autoremove, autoclean.";
+        echo;
 	apt-get update --assume-yes --quiet &&\
 	apt-get dist-upgrade --assume-yes --quiet &&\
 	apt-get autoremove --assume-yes --quiet &&\
@@ -92,14 +106,18 @@ fi
 #
 if [ -e /opt/scripts/tools/update_kernel.sh ]
 then
+        echo;
 	echo "---> Updating Beagle Bone Black kernel.";
+        echo;
 	/opt/scripts/tools/update_kernel.sh;
 #
 # For Pine64, check for and install kernel and uboot updates
 #
 elif [ -e /usr/local/sbin/pine64_update_kernel.sh ]
 then
+        echo;
 	echo "---> Updating Pine64 Uboot and Kernel.";
+        echo;
 	/usr/local/sbin/pine64_update_uboot.sh;
 	/usr/local/sbin/pine64_update_kernel.sh;
 fi
@@ -108,6 +126,8 @@ fi
 #
 if [ $? = 0 ]
 then	
-	echo "Rebooting";
+        echo;
+	echo "--->Rebooting";
+        echo;
 	/sbin/shutdown -r +1 &
 fi
