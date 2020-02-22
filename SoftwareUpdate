@@ -87,7 +87,7 @@ fi
 #
 # For Beagle Bone Black, check for and instll kernel updates
 #
-elif [ -e /opt/scripts/tools/update_kernel.sh ]
+if [ -e /opt/scripts/tools/update_kernel.sh ]
 then
 	echo "---> Updating Beagle Bone Black kernel.";
 	/opt/scripts/tools/update_kernel.sh;
