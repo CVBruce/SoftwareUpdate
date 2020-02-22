@@ -80,18 +80,10 @@ if [ -e /usr/bin/apt-get ]
 then
 	echo "---> Running apt-get update, upgrde, dist-upgrade, autoremove, autoclean.";
 	apt-get update --assume-yes --quiet &&\
-	apt-get upgrade --assume-yes --quiet &&\
 	apt-get dist-upgrade --assume-yes --quiet &&\
 	apt-get autoremove --assume-yes --quiet &&\
 	apt-get autoclean --assume-yes --quiet; 
 fi
-#
-# For Raspberry Pi, check for and install kernel updates
-#
-if [ -e /usr/bin/rpi-update ]
-then 
-	echo "---> Running rpi-update.";
-	/usr/bin/rpi-update;
 #
 # For Beagle Bone Black, check for and instll kernel updates
 #
