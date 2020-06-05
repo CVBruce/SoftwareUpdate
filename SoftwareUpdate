@@ -91,14 +91,14 @@ fi
 if [ -e /usr/bin/apt-get ]
 then
         echo;
-	echo "---> Running apt-get update, upgrde, dist-upgrade, autoremove, autoclean.";
+	echo "---> Running apt-get update, dist-upgrade, autoremove, autoclean.";
         echo;
 	apt-get update --assume-yes --quiet &&\
 	apt-get dist-upgrade --assume-yes --quiet &&\
 	apt-get autoremove --assume-yes --quiet &&\
 	apt-get autoclean --assume-yes --quiet;
 	echo ;
-	echo "---> Raspberry Pi Update Complete.";
+	echo "---> Update Complete.";
 	echo ;
 fi
 #
