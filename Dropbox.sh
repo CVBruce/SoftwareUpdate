@@ -34,4 +34,5 @@ fi
 #
 # 4. mount the remote directory.
 #
-rclone mount $DRIVE:/$HOSTNAME $HOME/$DRIVE --daemon --allow-non-empty 
+rclone mount $DRIVE:/$HOSTNAME $HOME/$DRIVE --daemon --allow-non-empty; 
+exit $?;
