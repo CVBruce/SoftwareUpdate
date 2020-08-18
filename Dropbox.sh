@@ -2,6 +2,7 @@
 PATH=/bin:/usr/bin:/usr/local/bin
 # Drive is the name of the cloud drive, as defined in the configuration file, e.g. Dropbox;
 # Drive is also the name of the mount point.
+# Lastly, Drive is the name of this script.  Linking to this script with a different name will change the cloud drive mounted.
 DRIVE=`basename $0 .sh`
 # Host name is used as the directory on the cloud drive that will be mounted on the local mount point.
 HOSTNAME=`uname -n`
